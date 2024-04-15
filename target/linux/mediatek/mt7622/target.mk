@@ -2,7 +2,7 @@ ARCH:=aarch64
 SUBTARGET:=mt7622
 BOARDNAME:=MT7622
 CPU_TYPE:=cortex-a53
-DEFAULT_PACKAGES += kmod-mt7615e kmod-mt7615-firmware wpad-openssl uboot-envtools
+DEFAULT_PACKAGES += kmod-mt7622 luci-app-mtwifi l1profile
 KERNELNAME:=Image dtbs
 
 define Target/Description

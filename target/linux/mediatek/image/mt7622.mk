@@ -258,7 +258,7 @@ define Device/xiaomi_redmi-router-ax6s
   DEVICE_DTS := mt7622-xiaomi-redmi-router-ax6s
   DEVICE_DTS_DIR := ../dts
   BOARD_NAME := xiaomi,redmi-router-ax6s
-  DEVICE_PACKAGES := kmod-mt7915e
+  DEVICE_PACKAGES := kmod-mt_wifi
   UBINIZE_OPTS := -E 5
   IMAGES += factory.bin
   BLOCKSIZE := 128k

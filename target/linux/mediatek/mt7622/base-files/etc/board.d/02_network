@@ -25,7 +25,7 @@ mediatek_setup_interfaces()
 		ucidef_set_interface_lan "eth0"
 		;;
 	xiaomi,redmi-router-ax6s)
-		ucidef_set_interfaces_lan_wan "lan1 lan2 lan3" wan
+		ucidef_set_interfaces_lan_wan "lan1 lan2 lan3 ra0 rai0" wan
 		;;
 	*)
 		ucidef_add_switch "switch0" \
