@@ -9,7 +9,7 @@ LUCI_PKGARCH:=all
 LUCI_DEPENDS:=@TARGET_mediatek +luci-lib-jquery-1-4 +wireless-tools
 PKG_VERSION:=1
 PKG_RELEASE:=8
-
+#PKG_SOURCE_PATCHES:=p/
 define Package/luci-app-mtwifi
 endef
 
@@ -34,7 +34,6 @@ endef
 
 
 include $(TOPDIR)/feeds/luci/luci.mk
-$(eval$(call ApplyPatch,./patches/fix_wireless_for_luci.patch))
 $(eval $(call BuildPackage,luci-app-mtwifi))
 $(eval $(call BuildPackage,l1profile))
 # call BuildPackage OpenWrt buildroot signature

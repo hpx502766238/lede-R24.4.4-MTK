@@ -1,5 +1,0 @@
---- feeds/luci/modules/luci-base/luasrc/model/network.lua
-+++ feeds/luci/modules/luci-base/luasrc/model/network.lua
-@@ -26,1 +26,1 @@
--IFACE_PATTERNS_WIRELESS = { "^wlan%d", "^wl%d", "^ath%d", "^rausb%d", "^rai%d", "^rax%d", "^ra%d", "^wdsi%d", "^wdsx%d", "^wds%d", "^apclii%d", "^apclix%d", "^apcli%d", "^apcliusb%d", "^%w+%.network%d" }
-+IFACE_PATTERNS_WIRELESS = { "^wlan%d", "^wl%d", "^ath%d", "^%w+%.network%d" }
