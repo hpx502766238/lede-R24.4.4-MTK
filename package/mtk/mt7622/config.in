@@ -638,7 +638,7 @@ config MTK_APSOC_WIFI_MWDS
 	bool "Mixed WDS(MWDS)"
 	depends on MTK_APSOC_WIFI_MT_AP_SUPPORT
 	select MTK_APSOC_WIFI_APCLI_SUPPORT
-	default n
+	default y
 
 config MTK_APSOC_WIFI_MUMIMO_SUPPORT
 	bool "MU-MIMO Support"
@@ -769,7 +769,7 @@ config MTK_APSOC_WIFI_MBSS_AS_WDS_AP_SUPPORT
 	bool "MBSS AS WDS AP Support"
 	depends on MTK_APSOC_WIFI_MT_AP_SUPPORT
 	depends on MTK_APSOC_WIFI_MBSS_SUPPORT
-	default n
+	default y
 
 config MTK_APSOC_WIFI_DSCP_QOS_MAP_SUPPORT
 	bool "Dscp Qos Mapping Support"

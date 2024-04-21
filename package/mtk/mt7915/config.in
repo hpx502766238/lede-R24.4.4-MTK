@@ -802,7 +802,7 @@ config MTK_MAC_REPEATER_SUPPORT
 	depends on MTK_MT_AP_SUPPORT
 	depends on MTK_APCLI_SUPPORT
 	depends on MTK_RALINK_RT6352 || MTK_RALINK_MT7620 || MTK_RALINK_MT7603E || MTK_MT_AP_SUPPORT
-	default n
+	default y
 
 config MTK_APCLI_CONNECTION_TRIAL
         bool "Trial Connection"
@@ -814,7 +814,7 @@ config MTK_MWDS
     bool "Mixed WDS(MWDS)"
     depends on MTK_MT_AP_SUPPORT
     select MTK_APCLI_SUPPORT
-    default n
+    default y
 
 config MTK_WIFI_SYSDVT
     bool "Wifi System DVT tool Support"
@@ -966,7 +966,7 @@ config MTK_MBSS_AS_WDS_AP_SUPPORT
 	bool "MBSS AS WDS AP Support"
 	depends on MTK_MT_AP_SUPPORT
 	depends on MTK_MBSS_SUPPORT
-	default n
+	default y
 
 config MTK_DSCP_QOS_MAP_SUPPORT
 	bool "Dscp Qos Mapping Support"
