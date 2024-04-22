@@ -26,7 +26,7 @@ Signed-off-by: David S. Miller <davem@davemloft.net>
 
 --- a/include/net/dsa.h
 +++ b/include/net/dsa.h
-@@ -626,6 +626,8 @@ struct dsa_switch_ops {
+@@ -654,6 +654,8 @@ struct dsa_switch_ops {
  	/*
  	 * PHYLINK integration
  	 */
@@ -37,7 +37,7 @@ Signed-off-by: David S. Miller <davem@davemloft.net>
  				    struct phylink_link_state *state);
 --- a/net/dsa/port.c
 +++ b/net/dsa/port.c
-@@ -1172,6 +1172,10 @@ static int dsa_port_phylink_register(str
+@@ -1188,6 +1188,10 @@ static int dsa_port_phylink_register(str
  	dp->pl_config.type = PHYLINK_DEV;
  	dp->pl_config.pcs_poll = ds->pcs_poll;
  

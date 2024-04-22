@@ -153,6 +153,7 @@ $(eval $(if $(NF_KMOD),$(call nf_add,NF_IPT6,CONFIG_IP6_NF_IPTABLES, $(P_V6)ip6_
 $(eval $(if $(NF_KMOD),$(call nf_add,NF_CONNTRACK,CONFIG_NF_DEFRAG_IPV6, $(P_V6)nf_defrag_ipv6),))
 
 $(eval $(if $(NF_KMOD),$(call nf_add,IPT_IPV6,CONFIG_IP6_NF_FILTER, $(P_V6)ip6table_filter),))
+$(eval $(if $(NF_KMOD),$(call nf_add,IPT_IPV6,CONFIG_IP6_NF_MANGLE, $(P_V6)ip6table_mangle),))
 $(eval $(if $(NF_KMOD),$(call nf_add,IPT_IPV6,CONFIG_NF_LOG_IPV6, $(P_V6)nf_log_ipv6,lt 5.13),))
 
 $(eval $(if $(NF_KMOD),,$(call nf_add,IPT_IPV6,CONFIG_IP6_NF_IPTABLES, ip6t_icmp6)))
@@ -227,11 +228,6 @@ $(eval $(call nf_add,NF_NATHELPER_EXTRA,CONFIG_NF_CONNTRACK_TFTP, $(P_XT)nf_conn
 $(eval $(call nf_add,NF_NATHELPER_EXTRA,CONFIG_NF_NAT_TFTP, $(P_XT)nf_nat_tftp))
 $(eval $(call nf_add,NF_NATHELPER_EXTRA,CONFIG_NF_CONNTRACK_IRC, $(P_XT)nf_conntrack_irc))
 $(eval $(call nf_add,NF_NATHELPER_EXTRA,CONFIG_NF_NAT_IRC, $(P_XT)nf_nat_irc))
-
-
-# ulog
-
-$(eval $(call nf_add,IPT_ULOG,CONFIG_IP_NF_TARGET_ULOG, $(P_V4)ipt_ULOG))
 
 
 # nflog
@@ -320,7 +316,6 @@ $(eval $(call nf_add,EBTABLES_IP4,CONFIG_BRIDGE_EBT_SNAT, $(P_EBT)ebt_snat))
 
 # watchers
 $(eval $(call nf_add,EBTABLES_WATCHERS,CONFIG_BRIDGE_EBT_LOG, $(P_EBT)ebt_log))
-$(eval $(call nf_add,EBTABLES_WATCHERS,CONFIG_BRIDGE_EBT_ULOG, $(P_EBT)ebt_ulog))
 $(eval $(call nf_add,EBTABLES_WATCHERS,CONFIG_BRIDGE_EBT_NFLOG, $(P_EBT)ebt_nflog))
 $(eval $(call nf_add,EBTABLES_WATCHERS,CONFIG_BRIDGE_EBT_NFQUEUE, $(P_EBT)ebt_nfqueue))
 
@@ -392,7 +387,6 @@ IPT_BUILTIN += $(IPT_NAT6-y)
 IPT_BUILTIN += $(IPT_NAT_EXTRA-y)
 IPT_BUILTIN += $(NF_NATHELPER-y)
 IPT_BUILTIN += $(NF_NATHELPER_EXTRA-y)
-IPT_BUILTIN += $(IPT_ULOG-y)
 IPT_BUILTIN += $(IPT_TPROXY-y)
 IPT_BUILTIN += $(NFNETLINK-y)
 IPT_BUILTIN += $(NFNETLINK_LOG-y)

@@ -13,17 +13,25 @@ case "$VARIANT" in
 	LOADER="rk33/rk322xh_miniloader_v2.50.bin"
 	;;
 "rk3399")
-	ATF="rk33/rk3399_bl31_v1.35.elf"
-	DDR="rk33/rk3399_ddr_800MHz_v1.27.bin"
-	LOADER="rk33/rk3399_miniloader_v1.26.bin"
+	ATF="rk33/rk3399_bl31_v1.36.elf"
+	DDR="rk33/rk3399_ddr_800MHz_v1.30.bin"
+	LOADER="rk33/rk3399_miniloader_v1.30.bin"
+	;;
+"rk3528")
+	ATF="rk35/rk3528_bl31_v1.17.elf"
+	DDR="rk35/rk3528_ddr_1056MHz_v1.09.bin"
+	;;
+"rk3566")
+	ATF="rk35/rk3568_bl31_v1.44.elf"
+	DDR="rk35/rk3566_ddr_1056MHz_v1.21.bin"
 	;;
 "rk3568")
-	ATF="rk35/rk3568_bl31_v1.28.elf"
-	DDR="rk35/rk3568_ddr_1560MHz_v1.13.bin"
+	ATF="rk35/rk3568_bl31_v1.44.elf"
+	DDR="rk35/rk3568_ddr_1560MHz_v1.21.bin"
 	;;
 "rk3588")
-	ATF="rk35/rk3588_bl31_v1.27.elf"
-	DDR="rk35/rk3588_ddr_lp4_2112MHz_lp5_2736MHz_v1.08.bin"
+	ATF="rk35/rk3588_bl31_v1.45.elf"
+	DDR="rk35/rk3588_ddr_lp4_2112MHz_lp5_2400MHz_v1.16.bin"
 	;;
 *)
 	echo -e "Not compatible with your platform: $VARIANT."
@@ -35,7 +43,7 @@ set -x
 if [ "$ACTION" == "build" ]; then
 	case "$VARIANT" in
 	rk33*)
-		"$PKG_BUILD_DIR"/tools/mkimage -n "$VARIANT" -T "rksd" -d "$PKG_BUILD_DIR/bin/$DDR" "$PKG_BUILD_DIR/$VARIANT-idbloader.bin"
+		mkimage -n "$VARIANT" -T "rksd" -d "$PKG_BUILD_DIR/bin/$DDR" "$PKG_BUILD_DIR/$VARIANT-idbloader.bin"
 		cat "$PKG_BUILD_DIR/bin/$LOADER" >> "$PKG_BUILD_DIR/$VARIANT-idbloader.bin"
 		"$PKG_BUILD_DIR/tools/trust_merger" --replace "bl31.elf" "$PKG_BUILD_DIR/bin/$ATF" "$PKG_BUILD_DIR/trust.ini"
 		;;

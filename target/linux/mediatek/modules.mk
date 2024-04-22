@@ -38,3 +38,18 @@ define KernelPackage/sdhci-mtk
 endef
 
 $(eval $(call KernelPackage,sdhci-mtk))
+
+define KernelPackage/mtk-hnat
+  SUBMENU:=Network Devices
+  TITLE:=MediaTek MT762x HW NAT driver
+  DEPENDS:=@TARGET_mediatek_mt7622 +kmod-nf-flow
+  KCONFIG:= \
+	CONFIG_BRIDGE_NETFILTER=y \
+	CONFIG_NET_MEDIATEK_HNAT \
+	CONFIG_NETFILTER_FAMILY_BRIDGE=y
+  FILES:= \
+	$(LINUX_DIR)/drivers/net/ethernet/mtk/mtk_hnat/mtkhnat.ko
+  AUTOLOAD:=$(call AutoLoad,55,mtkhnat)
+endef
+
+$(eval $(call KernelPackage,mtk-hnat))

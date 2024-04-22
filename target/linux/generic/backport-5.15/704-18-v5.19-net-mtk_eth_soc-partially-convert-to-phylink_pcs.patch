@@ -112,7 +112,7 @@ Signed-off-by: Jakub Kicinski <kuba@kernel.org>
  	.mac_link_down = mtk_mac_link_down,
 --- a/drivers/net/ethernet/mediatek/mtk_eth_soc.h
 +++ b/drivers/net/ethernet/mediatek/mtk_eth_soc.h
-@@ -963,10 +963,12 @@ struct mtk_soc_data {
+@@ -964,10 +964,12 @@ struct mtk_soc_data {
   * @regmap:            The register map pointing at the range used to setup
   *                     SGMII modes
   * @ana_rgc3:          The offset refers to register ANA_RGC3 related to regmap
@@ -125,7 +125,7 @@ Signed-off-by: Jakub Kicinski <kuba@kernel.org>
  };
  
  /* struct mtk_sgmii -  This is the structure holding sgmii regmap and its
-@@ -1106,12 +1108,9 @@ void mtk_stats_update_mac(struct mtk_mac
+@@ -1107,12 +1109,9 @@ void mtk_stats_update_mac(struct mtk_mac
  void mtk_w32(struct mtk_eth *eth, u32 val, unsigned reg);
  u32 mtk_r32(struct mtk_eth *eth, unsigned reg);
  
