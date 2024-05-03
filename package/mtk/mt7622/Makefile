@@ -238,6 +238,11 @@ define KernelPackage/mt7622
   AUTOLOAD:=$(call AutoProbe,mt7622_mt_wifi)
   SUBMENU:=Wireless Drivers
   MENU:=1
+ifneq ($(CONFIG_MTK_FAST_NAT_SUPPORT), )
+ifneq ($(CONFIG_NET_MEDIATEK_HNAT), )
+DEPENDS+=+kmod-mediatek_hnat
+endif
+endif
 endef
 
 define KernelPackage/mt7622/config

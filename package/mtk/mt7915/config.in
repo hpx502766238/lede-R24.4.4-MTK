@@ -400,15 +400,15 @@ config MTK_TXBF_SUPPORT
 config MTK_FAST_NAT_SUPPORT
        bool "Fast-NAT support"
 #       depends on RA_HW_NAT_WIFI
-       default n
+       default y
 
 config MTK_WHNAT_SUPPORT
 	tristate "Wifi Hardware NAT support"
 	depends on MTK_CHIP_MT7615E || MTK_CHIP_MT7915
 	depends on MTK_WLAN_HOOK
 	depends on MTK_FAST_NAT_SUPPORT
-	depends on PACKAGE_kmod-hw_nat || PACKAGE_kmod-mtk-hnat
-	default n
+	depends on PACKAGE_kmod-hw_nat || PACKAGE_kmod-mediatek_hnat
+	default y
 
 config MTK_WARP_V2
 	bool "Warp driver version 2 support"

@@ -240,7 +240,7 @@ define KernelPackage/mt_wifi
   TITLE:=MTK wifi AP driver
 ifneq ($(CONFIG_MTK_FAST_NAT_SUPPORT), )
 ifneq ($(CONFIG_NET_MEDIATEK_HNAT), )
-  DEPENDS+=+kmod-mtk-hnat
+  DEPENDS+=+kmod-mediatek_hnat
 endif
 endif
 ifneq ($(CONFIG_MTK_WHNAT_SUPPORT), )

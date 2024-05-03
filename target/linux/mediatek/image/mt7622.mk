@@ -70,6 +70,24 @@ define Build/trx-nand
 	mv $@.new $@
 endef
 
+
+#define Device/mediatek_mt7622-ubi
+#  DEVICE_MODEL := MTK7622 AP (UBI)
+#  DEVICE_DTS := mt7622-rfb1-ubi
+#  DEVICE_DTS_DIR := $(DTS_DIR)/mediatek
+#  SUPPORTED_DEVICES := mediatek,mt7622,ubi
+#  UBINIZE_OPTS := -E 5
+#  BLOCKSIZE := 128k
+#  PAGESIZE := 2048
+#  IMAGE_SIZE := 36864k
+#  KERNEL_IN_UBI := 1
+#  IMAGES += factory.bin
+#  IMAGE/factory.bin := append-ubi | check-size $$$$(IMAGE_SIZE)
+#  IMAGE/sysupgrade.bin := sysupgrade-tar | append-metadata
+#  DEVICE_PACKAGES := kmod-usb-ohci kmod-usb2 kmod-usb3 kmod-ata-ahci-mtk
+#endef
+#TARGET_DEVICES += mediatek_mt7622-ubi
+
 #define Device/bananapi_bpi-r64
 #  DEVICE_VENDOR := Bananapi
 #  DEVICE_MODEL := BPi-R64
@@ -105,6 +123,7 @@ endef
 #  IMAGE/sysupgrade.itb		:= append-kernel | fit gzip $$(DTS_DIR)/$$(DEVICE_DTS).dtb external-static-with-rootfs | append-metadata
 #endef
 #TARGET_DEVICES += bananapi_bpi-r64
+
 
 define Device/buffalo_wsr-2533dhp2
   DEVICE_VENDOR := Buffalo

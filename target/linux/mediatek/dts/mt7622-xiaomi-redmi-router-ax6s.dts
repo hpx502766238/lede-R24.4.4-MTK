@@ -69,6 +69,49 @@
 			linux,input-type = <EV_SW>;
 		};
 	};
+	
+	gsw: gsw@0 {
+		compatible = "mediatek,mt753x";
+		mediatek,ethsys = <&ethsys>;
+		#address-cells = <1>;
+		#size-cells = <0>;
+	};
+
+	wed: wed@1020b000 {
+		compatible = "mediatek,wed";
+		wed_num = <2>;
+		/* add this property for wed get the pci slot number. */
+		pci_slot_map = <0>, <1>;
+		reg = <0 0x1020a000 0 0x1000>,
+		      <0 0x1020b000 0 0x1000>;
+		interrupts = <GIC_SPI 214 IRQ_TYPE_LEVEL_LOW>,
+			     <GIC_SPI 215 IRQ_TYPE_LEVEL_LOW>;
+	};
+	
+	hnat: hnat@1b000000 {
+	compatible = "mediatek,mtk-hnat_v2";
+		reg = <0 0x1b100000 0 0x3000>;
+		resets = <&ethsys 0>;
+		reset-names = "mtketh";
+	};
+	
+	pcie_mirror: pcie_mirror@10000400 {
+		compatible = "mediatek,pcie-mirror";
+		reg = <0 0x10000400 0 0x10>;
+	};
+	
+	wdma: wdma@1b102800 {
+		compatible = "mediatek,wed-wdma";
+		reg = <0 0x1b102800 0 0x400>,
+		      <0 0x1b102c00 0 0x400>;
+		interrupts = <GIC_SPI 216 IRQ_TYPE_LEVEL_LOW>,
+			     <GIC_SPI 217 IRQ_TYPE_LEVEL_LOW>,
+			     <GIC_SPI 218 IRQ_TYPE_LEVEL_LOW>,
+			     <GIC_SPI 219 IRQ_TYPE_LEVEL_LOW>,
+			     <GIC_SPI 220 IRQ_TYPE_LEVEL_LOW>,
+			     <GIC_SPI 221 IRQ_TYPE_LEVEL_LOW>;
+	};
+	
 };
 
 &cpu0 {
@@ -143,13 +186,7 @@
 	gmac0: mac@0 {
 		compatible = "mediatek,eth-mac";
 		reg = <0>;
-
-		phy-connection-type = "2500base-x";
-
-		nvmem-cells = <&macaddr_factory_4>;
-		nvmem-cell-names = "mac-address";
-		mac-address-increment = <(-1)>;
-
+		phy-mode = "2500base-x";
 		fixed-link {
 			speed = <2500>;
 			full-duplex;
@@ -157,58 +194,40 @@
 		};
 	};
 
-	mdio-bus {
+	mdio: mdio-bus {
 		#address-cells = <1>;
 		#size-cells = <0>;
+	};
+};
 
-		switch@0 {
-			compatible = "mediatek,mt7531";
-			reg = <0>;
-			interrupt-controller;
-			#interrupt-cells = <1>;
-			interrupt-parent = <&pio>;
-			interrupts = <53 IRQ_TYPE_LEVEL_HIGH>;
-			reset-gpios = <&pio 54 GPIO_ACTIVE_HIGH>;
+&gsw {
+	mediatek,mdio = <&mdio>;
+	mediatek,portmap = "lwlll";
+	mediatek,mdio_master_pinmux = <0>;
+	reset-gpios = <&pio 54 0>;
+	interrupt-parent = <&pio>;
+	interrupts = <53 IRQ_TYPE_LEVEL_HIGH>;
+	status = "okay";
 
-			ports {
-				#address-cells = <1>;
-				#size-cells = <0>;
 
-				wan: port@1 {
-					reg = <1>;
-					label = "wan";
-				};
-
-				port@2 {
-					reg = <2>;
-					label = "lan1";
-				};
-
-				port@3 {
-					reg = <3>;
-					label = "lan2";
-				};
-
-				port@4 {
-					reg = <4>;
-					label = "lan3";
-				};
-
-				port@6 {
-					reg = <6>;
-					label = "cpu";
-					ethernet = <&gmac0>;
-					phy-mode = "2500base-x";
-
-					fixed-link {
-						speed = <2500>;
-						full-duplex;
-						pause;
-					};
-				};
-			};
+	port6: port@6 {
+		compatible = "mediatek,mt753x-port";
+		reg = <6>;
+		phy-mode = "sgmii";
+		fixed-link {
+			speed = <2500>;
+			full-duplex;
 		};
 	};
+};
+
+&hnat {
+	mtketh-wan = "eth0.2";
+	mtketh-ppd = "eth0.1";
+	mtketh-lan = "eth0";
+	mtketh-max-gmac = <0x1>;
+	ext-devices ="rai0","apclii0","ra0","apcli0";
+	status = "okay";
 };
 
 &snand {
