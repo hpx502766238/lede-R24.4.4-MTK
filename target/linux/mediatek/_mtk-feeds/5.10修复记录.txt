@@ -1,0 +1,48 @@
+1.771-v5.14-net-phy-add-MediaTek-Gigabit-Ethernet-PHY-driver.patch
+解决：与743-add-mediatek-ge-gphy-support-M5.4.patch（mtk）冲突，为交换机驱动更改，保留mtk补丁
+
+2.1002-mtkhnat-add-support-for-virtual-interface-acceleration-M5.4.patch
+解决：来自mtk，添加虚拟接口hnat支持，由于5.10重写了netfilter代码，不好迁移，因此直接删除
+
+3.1024-pcie-add-multi-MSI-support-M5.4.patch
+解决：删除Hunk3适配新内核
+
+4.741-add-default-setting-to-dsa-unused-port-M5.4.patch
+解决：删除，不用dsa。同步删除742
+
+5.738-mt7531-gsw-internal_phy_calibration-M5.4、739-mt7531-gsw-port5_external_phy_init-M5.4
+解决：交换机驱动补丁，直接应用补丁修改file-5.10下753驱动，然后删除补丁
+
+6.745-mdiobus-add-c45-M5.4.patch
+解决：与702-v5.17-net-mdio-add-helpers-to-extract-clause-45-regad-and-.patch修改内容一致，直接删除
+
+7.unknown statement "---help---"
+解决：修改743-add-mediatek-ge-gphy-support-M5.4.patch、0100-hwnat_Kconfig_Makefile-M5.4.patch以及mtk ethernet
+下的Kconfig，将---help---改为help
+
+8.mediatek-ge.c编译报错
+drivers/net/phy/mediatek-ge.c:991:37: error: initialization of 'irqreturn_t (*)(struct phy_device *)' {aka 'enum irqreturn (*)(struct phy_device *)'} from incompatible pointer type 'int (*)(struct phy_device *)' [-Werror=incompatible-pointer-types]
+  991 |                 .handle_interrupt = genphy_no_ack_interrupt,
+      |                                     ^~~~~~~~~~~~~~~~~~~~~~~
+drivers/net/phy/mediatek-ge.c:991:37: note: (near initialization for 'mtk_gephy_driver[0].handle_interrupt')
+解决：5.10内核中genphy_no_ack_interrupt的返回值定义发生了变化，因此用开源补丁771-v5.14-net-phy-add-MediaTek-Gigabit-Ethernet-PHY-driver.patch替代，即回退【1.】的操作。
+
+9.hnat报错
+In file included from drivers/net/ethernet/mediatek/mtk_hnat/hnat.c:26:
+drivers/net/ethernet/mediatek/mtk_hnat/hnat.h:24:10: fatal error: net/netfilter/nf_hnat.h: No such file or directory
+   24 | #include <net/netfilter/nf_hnat.h>
+      |          ^~~~~~~~~~~~~~~~~~~~~~~~~
+compilation terminated.
+解决：缺少netfilter补丁，
+从ramips拷贝902-mtkhnat-fix-pskb-expand-head-limitation.patch,
+903-mtkhnat-add-support-for-interface-acceleration，
+同时,删除1001-mtkhnat-ipv6-fix-pskb-expand-head-limitation-M5.4.patch,拷贝缺失的include/net/ra_nat.h
+
+10.hnat、mtk_eth_soc、mtk_eth_dbg报错
+drivers/net/ethernet/mediatek/mtk_hnat/hnat_debugfs.c: In function 'hnat_init_debugfs':
+drivers/net/ethernet/mediatek/mtk_hnat/hnat_debugfs.c:2290:22: error: void value not ignored as it ought to be
+ 2290 |                 file = debugfs_create_regset32(name, S_IRUGO,
+      |                      ^
+make[10]: *** [scripts/Makefile.build:286: drivers/net/ethernet/mediatek/mtk_hnat/hnat_debugfs.o] Error 1
+解决：参考ramips下的驱动修改，修复5.10内核的兼容性
+

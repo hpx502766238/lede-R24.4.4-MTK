@@ -154,15 +154,6 @@ define Device/buffalo_wsr-2533dhp2
 endef
 TARGET_DEVICES += buffalo_wsr-2533dhp2
 
-define Device/elecom_wrc-2533gent
-  DEVICE_VENDOR := Elecom
-  DEVICE_MODEL := WRC-2533GENT
-  DEVICE_DTS := mt7622-elecom-wrc-2533gent
-  DEVICE_DTS_DIR := ../dts
-  DEVICE_PACKAGES := kmod-btmtkuart kmod-usb3 swconfig
-endef
-TARGET_DEVICES += elecom_wrc-2533gent
-
 define Device/linksys_e8450
   DEVICE_VENDOR := Linksys
   DEVICE_MODEL := E8450

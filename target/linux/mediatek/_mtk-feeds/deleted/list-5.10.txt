@@ -1,0 +1,4 @@
+a/arch/arm64/boot/dts/mediatek/mt7622.dtsi
+a/drivers/net/ethernet/mediatek/mtk_eth_soc.c
+a/drivers/net/ethernet/mediatek/mtk_eth_soc.h
+a/drivers/pci/controller/pcie-mediatek.c
