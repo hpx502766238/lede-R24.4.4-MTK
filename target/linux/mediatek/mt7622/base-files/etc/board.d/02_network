@@ -14,7 +14,7 @@ mediatek_setup_interfaces()
 	mediatek,mt7622-rfb1|\
 	mediatek,mt7622-rfb1-ubi|\
 	ruijie,rg-ew3200gx-pro)
-		ucidef_set_interfaces_lan_wan "lan1 lan2 lan3 lan4" wan
+		ucidef_set_interfaces_lan_wan "lan1 lan2 lan3 lan4" "wan"
 		;;
 	buffalo,wsr-2533dhp2)
 		ucidef_add_switch "switch0" \
@@ -25,8 +25,11 @@ mediatek_setup_interfaces()
 		ucidef_set_interface_lan "eth0"
 		;;
 	xiaomi,redmi-router-ax6s)
-		ucidef_set_interfaces_lan_wan "lan1 lan2 lan3 ra0 rai0" wan
+		ucidef_add_switch "switch0" \
+			"4:lan:2" "3:lan:3" "2:lan:4" "1:wan" "6t@eth0" 
+		ucidef_set_interfaces_lan_wan "ra0 rai0 eth0.1" "eth0.2"
 		;;
+		
 	*)
 		ucidef_add_switch "switch0" \
 				  "0:lan" "1:lan" "2:lan" "3:lan" "4:wan" "6u@eth0" "5u@eth1"

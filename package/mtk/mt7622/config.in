@@ -294,7 +294,7 @@ config MTK_APSOC_WIFI_TXBF_SUPPORT
 config MTK_APSOC_WIFI_FAST_NAT_SUPPORT
 	bool "Fast-NAT support"
 #	depends on MTK_APSOC_WIFI_RA_HW_NAT_WIFI
-	default n
+	default y
 
 #config MTK_APSOC_WIFI_LLTD_SUPPORT
 #	bool "LLTD (Link Layer Topology Discovery Protocol)"

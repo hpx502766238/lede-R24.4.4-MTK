@@ -23,6 +23,7 @@
 #include <linux/uaccess.h>
 #include <linux/proc_fs.h>
 #include "woe.h"
+#include <linux/version.h>
 
 /*define proc*/
 #define PROC_ROOT_DIR	"whnat_ctrl"	/*global dir for whnat*/
@@ -478,7 +479,7 @@ static int whnat_proc_rx_open(struct inode *inode, struct file *file)
 /*
  * global file operation
 */
-/*
+#if LINUX_VERSION_CODE < KERNEL_VERSION(5, 10, 0)
 static const struct file_operations proc_whnat_trace_fops = {
 	.owner = THIS_MODULE,
 	.open = whnat_proc_trace_open,
@@ -556,7 +557,7 @@ static const struct file_operations proc_ctrl_fops = {
 	.llseek = seq_lseek,
 	.release = single_release,
 };
-*/
+#else
 //for linux 5.10+
 static const struct proc_ops proc_whnat_trace_fops = {
 	.proc_open = whnat_proc_trace_open,
@@ -624,6 +625,7 @@ static const struct proc_ops proc_ctrl_fops = {
 	.proc_lseek = seq_lseek,
 	.proc_release = single_release,
 };
+#endif
 /*
  *  proc register/unregister
 */

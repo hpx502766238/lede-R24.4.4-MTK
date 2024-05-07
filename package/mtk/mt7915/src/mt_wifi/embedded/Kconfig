@@ -399,7 +399,7 @@ config WHNAT_SUPPORT
 	depends on CHIP_MT7615E || CHIP_MT7915
 	depends on WLAN_HOOK
 	depends on FAST_NAT_SUPPORT
-	depends on PACKAGE_kmod-hw_nat || PACKAGE_kmod-mtk-hnat
+	depends on PACKAGE_kmod-hw_nat || PACKAGE_kmod-mediatek_hnat
 	default n
 
 config WARP_V2

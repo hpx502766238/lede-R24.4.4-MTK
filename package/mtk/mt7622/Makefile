@@ -234,6 +234,11 @@ TAR_CMD=$(HOST_TAR) -C $(1)/ $(TAR_OPTIONS)
 define KernelPackage/mt7622
   CATEGORY:=Kernel modules
   TITLE:=MTK wifi AP driver
+ifneq ($(CONFIG_MTK_FAST_NAT_SUPPORT), )
+ifneq ($(CONFIG_NET_MEDIATEK_HNAT), )
+  DEPENDS+=+kmod-mediatek_hnat
+endif
+endif
   FILES:=$(PKG_BUILD_DIR)/mt_wifi_ap/$(PKG_NAME)_mt_wifi.ko
   AUTOLOAD:=$(call AutoProbe,mt7622_mt_wifi)
   SUBMENU:=Wireless Drivers

@@ -19,7 +19,7 @@
  	};
  
  	cpus {
-@@ -40,23 +39,22 @@
+@@ -40,24 +39,23 @@
  
  	gpio-keys {
  		compatible = "gpio-keys";
@@ -46,7 +46,8 @@
  		device_type = "memory";
  	};
  
-@@ -133,22 +131,22 @@
+ 	reg_1p8v: regulator-1p8v {
+@@ -132,22 +130,22 @@
  
  				port@0 {
  					reg = <0>;
@@ -73,7 +74,7 @@
  				};
  
  				port@4 {
-@@ -237,15 +235,28 @@
+@@ -236,15 +234,28 @@
  
  &pcie {
  	pinctrl-names = "default";
@@ -103,7 +104,7 @@
  	/* eMMC is shared pin with parallel NAND */
  	emmc_pins_default: emmc-pins-default {
  		mux {
-@@ -512,11 +523,11 @@
+@@ -511,11 +522,11 @@
  };
  
  &sata {

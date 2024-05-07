@@ -1,0 +1,230 @@
+--- a/drivers/net/phy/Kconfig	2022-03-19 21:19:35.582096000 +0800
++++ b/drivers/net/phy/Kconfig	2022-03-22 19:41:49.906506705 +0800
+@@ -134,7 +134,7 @@
+ 	select SWCONFIG
+ 
+ endif # RTL8366_SMI
+-
++source "drivers/net/phy/mtk/mt753x/Kconfig"
+ comment "MII PHY device drivers"
+ 
+ config AMD_PHY
+ 
+--- a/drivers/net/phy/Makefile	2022-03-19 21:19:35.582096000 +0800
++++ b/drivers/net/phy/Makefile	2022-03-22 19:42:06.803528022 +0800
+@@ -95,3 +95,4 @@
+ obj-$(CONFIG_TERANETICS_PHY)	+= teranetics.o
+ obj-$(CONFIG_VITESSE_PHY)	+= vitesse.o
+ obj-$(CONFIG_XILINX_GMII2RGMII) += xilinx_gmii2rgmii.o
++obj-$(CONFIG_MT753X_GSW)        += mtk/mt753x/
+ 			 			
+
+--- a/drivers/net/ethernet/Kconfig	2022-03-28 15:57:11.000000000 +0800
++++ b/drivers/net/ethernet/Kconfig	2022-04-30 15:35:42.047114136 +0800
+@@ -119,6 +119,7 @@
+ 
+ source "drivers/net/ethernet/marvell/Kconfig"
+ source "drivers/net/ethernet/mediatek/Kconfig"
++source "drivers/net/ethernet/mediateksdk/Kconfig"
+ source "drivers/net/ethernet/mellanox/Kconfig"
+ source "drivers/net/ethernet/micrel/Kconfig"
+ source "drivers/net/ethernet/microchip/Kconfig"
+
+--- a/drivers/net/ethernet/Makefile	2022-03-28 15:57:11.000000000 +0800
++++ b/drivers/net/ethernet/Makefile	2022-04-30 15:34:53.069392279 +0800
+@@ -52,6 +52,7 @@
+ obj-$(CONFIG_LANTIQ_XRX200) += lantiq_xrx200.o
+ obj-$(CONFIG_NET_VENDOR_MARVELL) += marvell/
+ obj-$(CONFIG_NET_VENDOR_MEDIATEK) += mediatek/
++obj-$(CONFIG_NET_VENDOR_MEDIATEK_SDK) += mediateksdk/
+ obj-$(CONFIG_NET_VENDOR_MELLANOX) += mellanox/
+ obj-$(CONFIG_NET_VENDOR_MICREL) += micrel/
+ obj-$(CONFIG_NET_VENDOR_MICROCHIP) += microchip/
+
+--- a/arch/arm64/boot/dts/mediatek/mt7622.dtsi	2022-04-29 08:48:58.139831000 +0800
++++ b/arch/arm64/boot/dts/mediatek/mt7622.dtsi	2022-05-03 22:41:14.120508052 +0800
+@@ -289,6 +289,26 @@
+ 		#clock-cells = <1>;
+ 	};
+ 
++	wed: wed@1020b000 {
++		compatible = "mediatek,wed";
++		wed_num = <2>;
++		/* add this property for wed get the pci slot number. */
++		pci_slot_map = <0>, <1>;
++		reg = <0 0x1020a000 0 0x1000>,
++		      <0 0x1020b000 0 0x1000>;
++		interrupts = <GIC_SPI 214 IRQ_TYPE_LEVEL_LOW>,
++			     <GIC_SPI 215 IRQ_TYPE_LEVEL_LOW>;
++	};
++
++	
++		
++		
++		
++		    
++		
++			     
++	
++	
+ 	topckgen: topckgen@10210000 {
+ 		compatible = "mediatek,mt7622-topckgen",
+ 			     "syscon";
+@@ -813,8 +833,6 @@
+ 		reg = <0 0x1a143000 0 0x1000>;
+ 		reg-names = "port0";
+ 		mediatek,pcie-cfg = <&pciecfg>;
+-		mediatek,hifsys = <&hifsys>;
+-		mediatek,cci-control = <&cci_control2>;
+ 		#address-cells = <3>;
+ 		#size-cells = <2>;
+ 		interrupts = <GIC_SPI 228 IRQ_TYPE_LEVEL_LOW>;
+@@ -832,7 +850,7 @@
+ 		bus-range = <0x00 0xff>;
+ 		ranges = <0x82000000 0 0x20000000  0x0 0x20000000  0 0x8000000>;
+ 		status = "disabled";
+-		dma-coherent;
++		
+ 
+ 		slot0: pcie@0,0 {
+ 			reg = <0x0000 0 0 0 0>;
+@@ -858,8 +876,6 @@
+ 		device_type = "pci";
+ 		reg = <0 0x1a145000 0 0x1000>;
+ 		reg-names = "port1";
+-		mediatek,pcie-cfg = <&pciecfg>;
+-		mediatek,hifsys = <&hifsys>;
+ 		mediatek,cci-control = <&cci_control2>;
+ 		#address-cells = <3>;
+ 		#size-cells = <2>;
+@@ -879,7 +895,6 @@
+ 		bus-range = <0x00 0xff>;
+ 		ranges = <0x82000000 0 0x28000000  0x0 0x28000000  0 0x8000000>;
+ 		status = "disabled";
+-		dma-coherent;
+ 
+ 		slot1: pcie@1,0 {
+ 			reg = <0x0800 0 0 0 0>;
+@@ -952,35 +967,6 @@
+ 		#reset-cells = <1>;
+ 	};
+ 
+-	hsdma: dma-controller@1b007000 {
+-		compatible = "mediatek,mt7622-hsdma";
+-		reg = <0 0x1b007000 0 0x1000>;
+-		interrupts = <GIC_SPI 219 IRQ_TYPE_LEVEL_LOW>;
+-		clocks = <&ethsys CLK_ETH_HSDMA_EN>;
+-		clock-names = "hsdma";
+-		power-domains = <&scpsys MT7622_POWER_DOMAIN_ETHSYS>;
+-		#dma-cells = <1>;
+-	};
+-
+-	pcie_mirror: pcie-mirror@10000400 {
+-		compatible = "mediatek,mt7622-pcie-mirror",
+-			     "syscon";
+-		reg = <0 0x10000400 0 0x10>;
+-	};
+-
+-	wed0: wed@1020a000 {
+-		compatible = "mediatek,mt7622-wed",
+-			     "syscon";
+-		reg = <0 0x1020a000 0 0x1000>;
+-		interrupts = <GIC_SPI 214 IRQ_TYPE_LEVEL_LOW>;
+-	};
+-
+-	wed1: wed@1020b000 {
+-		compatible = "mediatek,mt7622-wed",
+-			     "syscon";
+-		reg = <0 0x1020b000 0 0x1000>;
+-		interrupts = <GIC_SPI 215 IRQ_TYPE_LEVEL_LOW>;
+-	};
+ 
+ 	eth: ethernet@1b100000 {
+ 		compatible = "mediatek,mt7622-eth",
+@@ -1008,16 +994,36 @@
+ 		power-domains = <&scpsys MT7622_POWER_DOMAIN_ETHSYS>;
+ 		mediatek,ethsys = <&ethsys>;
+ 		mediatek,sgmiisys = <&sgmiisys>;
+-		mediatek,cci-control = <&cci_control2>;
+-		mediatek,wed = <&wed0>, <&wed1>;
+-		mediatek,pcie-mirror = <&pcie_mirror>;
+-		mediatek,hifsys = <&hifsys>;
+-		dma-coherent;
+ 		#address-cells = <1>;
+ 		#size-cells = <0>;
+ 		status = "disabled";
+ 	};
+ 
++	hnat: hnat@1b000000 {
++		compatible = "mediatek,mtk-hnat_v2";
++		reg = <0 0x1b100000 0 0x3000>;
++		resets = <&ethsys 0>;
++		reset-names = "mtketh";
++		status = "disabled";
++	};
++
++	pcie_mirror: pcie_mirror@10000400 {
++		compatible = "mediatek,pcie-mirror";
++		reg = <0 0x10000400 0 0x10>;
++	};
++	
++	wdma: wdma@1b102800 {
++		compatible = "mediatek,wed-wdma";
++		reg = <0 0x1b102800 0 0x400>,
++		      <0 0x1b102c00 0 0x400>;
++		interrupts = <GIC_SPI 216 IRQ_TYPE_LEVEL_LOW>,
++			     <GIC_SPI 217 IRQ_TYPE_LEVEL_LOW>,
++			     <GIC_SPI 218 IRQ_TYPE_LEVEL_LOW>,
++			     <GIC_SPI 219 IRQ_TYPE_LEVEL_LOW>,
++			     <GIC_SPI 220 IRQ_TYPE_LEVEL_LOW>,
++			     <GIC_SPI 221 IRQ_TYPE_LEVEL_LOW>;
++	};
++
+ 	sgmiisys: sgmiisys@1b128000 {
+ 		compatible = "mediatek,mt7622-sgmiisys",
+ 			     "syscon";
+
+--- a/net/core/skbuff.c	2022-05-18 11:03:02.361259000 +0800
++++ b/net/core/skbuff.c	2022-05-18 11:02:09.832117270 +0800
+@@ -70,7 +70,7 @@
+ #include <net/xfrm.h>
+ #include <net/mpls.h>
+ #include <net/mptcp.h>
+-
++#include <net/ra_nat.h>
+ #include <linux/uaccess.h>
+ #include <trace/events/skb.h>
+ #include <linux/highmem.h>
+@@ -707,6 +707,14 @@
+ 
+ void __kfree_skb(struct sk_buff *skb)
+ {
++	
++		
++		    
++			
++				
++				       
++		
++	
+ 	skb_release_all(skb);
+ 	kfree_skbmem(skb);
+ }
+@@ -1665,7 +1673,15 @@
+ 	memcpy((struct skb_shared_info *)(data + size),
+ 	       skb_shinfo(skb),
+ 	       offsetof(struct skb_shared_info, frags[skb_shinfo(skb)->nr_frags]));
+-
++	memcpy(data, skb->head, FOE_INFO_LEN);
++	
++		
++
++			
++				
++				       
++		
++	
+ 	/*
+ 	 * if shinfo is shared we must drop the old head gracefully, but if it
+ 	 * is not we can just drop the old head and let the existing refcount 
+ 

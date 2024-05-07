@@ -39,17 +39,43 @@ endef
 
 $(eval $(call KernelPackage,sdhci-mtk))
 
-define KernelPackage/mtk-hnat
+define KernelPackage/mediatek_hnat
   SUBMENU:=Network Devices
-  TITLE:=MediaTek MT762x HW NAT driver
-  DEPENDS:=@TARGET_mediatek_mt7622 +kmod-nf-flow
+  TITLE:=Mediatek HNAT module
+  DEPENDS:=@TARGET_mediatek +kmod-nf-conntrack
   KCONFIG:= \
 	CONFIG_BRIDGE_NETFILTER=y \
-	CONFIG_NET_MEDIATEK_HNAT \
-	CONFIG_NETFILTER_FAMILY_BRIDGE=y
+	CONFIG_NETFILTER_FAMILY_BRIDGE=y 
   FILES:= \
-	$(LINUX_DIR)/drivers/net/ethernet/mtk/mtk_hnat/mtkhnat.ko
-  AUTOLOAD:=$(call AutoLoad,55,mtkhnat)
+        $(LINUX_DIR)/drivers/net/ethernet/mediateksdk/mtk_hnat/mtkhnat.ko
 endef
 
-$(eval $(call KernelPackage,mtk-hnat))
+define KernelPackage/mediatek_hnat/description
+  Kernel modules for MediaTek HW NAT offloading
+endef
+
+$(eval $(call KernelPackage,mediatek_hnat))
+
+
+define KernelPackage/crypto-hw-mtk
+  TITLE:= MediaTek's Crypto Engine module
+  DEPENDS:=@TARGET_mediatek
+  KCONFIG:= \
+	CONFIG_CRYPTO_HW=y \
+	CONFIG_CRYPTO_AES=y \
+	CONFIG_CRYPTO_AEAD=y \
+	CONFIG_CRYPTO_SHA1=y \
+	CONFIG_CRYPTO_SHA256=y \
+	CONFIG_CRYPTO_SHA512=y \
+	CONFIG_CRYPTO_HMAC=y \
+	CONFIG_CRYPTO_DEV_MEDIATEK
+  FILES:=$(LINUX_DIR)/drivers/crypto/mediatek/mtk-crypto.ko
+  AUTOLOAD:=$(call AutoLoad,90,mtk-crypto)
+  $(call AddDepends/crypto)
+endef
+
+define KernelPackage/crypto-hw-mtk/description
+  MediaTek's EIP97 Cryptographic Engine driver.
+endef
+
+$(eval $(call KernelPackage,crypto-hw-mtk))
