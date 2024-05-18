@@ -59,7 +59,7 @@ DEFAULT_PACKAGES.router:=\
 	ddns-scripts_aliyun ddns-scripts_dnspod luci-app-ddns luci-app-upnp luci-app-autoreboot \
 	luci-app-arpbind luci-app-filetransfer luci-app-vlmcsd \
 	luci-app-accesscontrol luci-app-ttyd luci-app-turboacc luci-app-wireguard luci-app-wol curl ca-certificates \
-	luci-theme-design luci-app-design-config luci-app-uugamebooster luci-app-openvpn
+	luci-app-uugamebooster luci-app-openvpn luci-app-netspeedtest luci-app-udp2raw luci-theme-design luci-app-design-config 
 
 ifneq ($(DUMP),)
   all: dumpinfo
