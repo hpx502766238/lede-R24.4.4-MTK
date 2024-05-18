@@ -557,10 +557,10 @@ config MTK_WLAN_SERVICE
         depends on MTK_WIFI_DRIVER
         default y
 
-#config MTK_MEMORY_OPTIMIZATION
-#	bool "Memory Optimization"
-#	depends on MTK_WIFI_DRIVER
-#	default n
+config MTK_MEMORY_OPTIMIZATION
+	bool "Memory Optimization"
+	depends on MTK_WIFI_DRIVER
+	default y
 
 config MTK_PASSPOINT_R2
 	bool "Passpoint Release-2 Support"
@@ -744,7 +744,6 @@ endmenu
 menu "WiFi Operation Modes"
 
 	config MTK_WIFI_MODE_AP
-		default m
 		tristate "AP"
 		select MTK_MT_AP_SUPPORT
 
@@ -756,6 +755,7 @@ menu "WiFi Operation Modes"
 		tristate "APSTA"
 		select MTK_MT_AP_SUPPORT
 		select MTK_MT_STA_SUPPORT
+		default m
 
 
 config MTK_MT_AP_SUPPORT
