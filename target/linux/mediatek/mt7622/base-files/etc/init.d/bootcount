@@ -8,14 +8,20 @@ boot() {
 	ifconfig apcli0 up
 	ifconfig ra0 up
 	/etc/init.d/apcli.sh start
+	mkdir /tmp/mtk
 	mtkwifi reload
+	#set-irq-affinity
 	echo "2" > "/proc/irq/20/smp_affinity"
+	for irq in $(grep -E "ra0" /proc/interrupts | cut -d: -f1 | sed 's, *,,')
+	do
+		echo "2" > "/proc/irq/$irq/smp_affinity"
+	done
 	echo "3" > "/sys/class/net/eth0/queues/rx-0/rps_cpus"
 	echo "3" > "/sys/class/net/ra0/queues/rx-0/rps_cpus"
 	echo "3" > "/sys/class/net/rai0/queues/rx-0/rps_cpus"
 	echo "3" > "/sys/class/net/apcli0/queues/rx-0/rps_cpus"
 	echo "3" > "/sys/class/net/apclii0/queues/rx-0/rps_cpus"
-	insmod /lib/modules/mtkhnat.ko
+#	insmod /lib/modules/mtkhnat.ko
 	case $(board_name) in
 	linksys,e8450)
 		mtd erase senv || true
