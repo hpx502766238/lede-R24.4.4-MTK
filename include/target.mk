@@ -57,8 +57,9 @@ DEFAULT_PACKAGES.router:=\
 	block-mount coremark kmod-nf-nathelper kmod-nf-nathelper-extra kmod-ipt-raw kmod-tun \
 	iptables-mod-tproxy iptables-mod-extra ipset ip-full default-settings luci luci-newapi \
 	ddns-scripts_aliyun ddns-scripts_dnspod luci-app-ddns luci-app-upnp luci-app-autoreboot \
-	luci-app-arpbind luci-app-filetransfer luci-app-vsftpd luci-app-ssr-plus luci-app-vlmcsd \
-	luci-app-accesscontrol luci-app-nlbwmon luci-app-turboacc luci-app-wol curl ca-certificates
+	luci-app-arpbind luci-app-filetransfer luci-app-vlmcsd \
+	luci-app-accesscontrol luci-app-ttyd luci-app-turboacc luci-app-wireguard luci-app-wol curl ca-certificates \
+	luci-theme-design luci-app-design-config luci-app-uugamebooster luci-app-openvpn
 
 ifneq ($(DUMP),)
   all: dumpinfo

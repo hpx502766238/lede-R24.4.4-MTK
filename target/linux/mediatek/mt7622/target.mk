@@ -2,7 +2,7 @@ ARCH:=aarch64
 SUBTARGET:=mt7622
 BOARDNAME:=MT7622
 CPU_TYPE:=cortex-a53
-DEFAULT_PACKAGES += wpad-mesh-openssl uboot-envtools swconfig bridger
+DEFAULT_PACKAGES += wpad-mesh-openssl uboot-envtools swconfig bridger mtkhqos_util
 KERNELNAME:=Image dtbs
 
 define Target/Description
