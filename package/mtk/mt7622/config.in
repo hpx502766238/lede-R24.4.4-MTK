@@ -774,7 +774,7 @@ config MTK_APSOC_WIFI_MBSS_AS_WDS_AP_SUPPORT
 config MTK_APSOC_WIFI_DSCP_QOS_MAP_SUPPORT
 	bool "Dscp Qos Mapping Support"
 	depends on MTK_APSOC_WIFI_MT_AP_SUPPORT
-	default n
+	default y
 
 config MTK_APSOC_WIFI_DSCP_PRI_SUPPORT
 	bool "Dscp Priority Mapping Support"
